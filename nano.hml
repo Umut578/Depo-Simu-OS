@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nano Editor Simulator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        /* Terminal Kapsayıcısı */
+        .terminal {
+            width: 100%;
+            max-width: 800px;
+            height: 500px;
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        /* 1. Üst Bar (Nano Başlığı) */
+        .nano-header {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 2px 10px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            user-select: none;
+        }
+
+        /* 2. Metin Düzenleme Alanı */
+        .nano-content-wrapper {
+            flex-grow: 1;
+            display: flex;
+            padding: 10px 5px;
+            overflow-y: auto;
+        }
+
+        /* Satır Numaraları */
+        .line-numbers {
+            color: #555555;
+            text-align: right;
+            padding-right: 12px;
+            user-select: none;
+            line-height: 1.5;
+        }
+
+        /* Editörün Esas Yazı Alanı */
+        .nano-textarea {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        /* 3. Alt Kısım (Kısayol Tuşları) */
+        .nano-footer {
+            background-color: #000000;
+            border-top: 1px solid #222;
+            padding: 8px 10px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px 15px;
+            user-select: none;
+        }
+
+        /* Küçük ekranlarda 3 sütuna düşür */
+        @media (max-width: 600px) {
+            .nano-footer {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .shortcut {
+            display: flex;
+            gap: 6px;
+            font-size: 13px;
+        }
+
+        .key {
+            background-color: #ffffff;
+            color: #000000;
+            font-weight: bold;
+            padding: 0 2px;
+            border-radius: 2px;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .label {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="terminal">
+        <div class="nano-header">
+            <span>  GNU nano 7.2</span>
+            <span>umublog.html</span>
+            <span>Değiştirildi  </span>
+        </div>
+
+        <div class="nano-content-wrapper">
+            <div class="line-numbers">
+                1<br>2<br>3<br>4<br>5<br>6
+            </div>
+            <textarea class="nano-textarea" spellcheck="false" id="nanoEditor">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UmuBlog</title>
+</head>
+<body>
+    <h1>Umut OS Sistemine Hoş Geldiniz!</h1>
+</body>
+</html></textarea>
+        </div>
+
+        <div class="nano-footer">
+            <div class="shortcut"><span class="key">^G</span><span class="label">Yardım Al</span></div>
+            <div class="shortcut"><span class="key">^O</span><span class="label">Yaz</span></div>
+            <div class="shortcut"><span class="key">^W</span><span class="label">Ara</span></div>
+            <div class="shortcut"><span class="key">^K</span><span class="label">Metni Kes</span></div>
+            
+            <div class="shortcut"><span class="key">^X</span><span class="label">Çık</span></div>
+            <div class="shortcut"><span class="key">R</span><span class="label">Dosya Oku</span></div>
+            <div class="shortcut"><span class="key">^\</span><span class="label">Değiştir</span></div>
+            <div class="shortcut"><span class="key">^U</span><span class="label">Yapıştır</span></div>
+            
+            <div class="shortcut"><span class="key">^C</span><span class="label">Konum</span></div>
+            <div class="shortcut"><span class="key">^J</span><span class="label">Gerekçele</span></div>
+            <div class="shortcut"><span class="key">^T</span><span class="label">Yazım Knt</span></div>
+            <div class="shortcut"><span class="key">_</span><span class="label">Satıra Git</span></div>
+        </div>
+    </div>
+
+    <script>
+        // Basit bir satır numarası takip mekanizması (İsteğe bağlı)
+        const editor = document.getElementById('nanoEditor');
+        const lineNumDiv = document.querySelector('.line-numbers');
+
+        editor.addEventListener('input', () => {
+            const lines = editor.value.split('\n').length;
+            lineNumDiv.innerHTML = Array.from({length: lines}, (_, i) => i + 1).join('<br>');
+        });
+    </script>
+</body>
+</html>
+
+
